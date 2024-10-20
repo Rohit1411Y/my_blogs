@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_blog/bloc/auth_bloc.dart';
 import 'package:my_blog/core/theme/app_pallete.dart';
 import 'package:my_blog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:my_blog/features/auth/presentation/widgets/auth_gradient_button.dart';
+import 'package:my_blog/main.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -68,7 +71,19 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(
                 height: 20,
               ),
-              const AuthGradientButton(buttonText: "Sign Up"),
+              AuthGradientButton(
+                buttonText: "Sign Up",
+                onPressed: () {
+                  print('btn onpressed');
+                  if (formKey.currentState!.validate()) {
+                    print('authkey validated');
+                    context.read<AuthBloc>().add(AuthSignUp(
+                        email: emailController.text.trim(),
+                        password: passWordController.text.trim(),
+                        name: nameController.text.trim()));
+                  }
+                },
+              ),
               const SizedBox(
                 height: 20,
               ),
